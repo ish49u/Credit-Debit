@@ -20,17 +20,20 @@ export default function WelcomeScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    const checkAgreement = async () => {
-      const accepted = await AsyncStorage.getItem("userAcceptedTerms");
-      if (accepted === "true") {
-        router.replace("/(tabs)");
+    const loadAgreement = async () => {
+      try {
+        const saved = await AsyncStorage.getItem("userAgreed");
+        if (saved === "true") {
+          setAgreed(true);
+        }
+      } catch (e) {
+        console.log("Error loading agreement:", e);
       }
     };
-    checkAgreement();
+    loadAgreement();
   }, []);
 
-  const handleContinue = async () => {
-    await AsyncStorage.setItem("userAcceptedTerms", "true");
+  const handleContinue = () => {
     router.replace("/(tabs)");
   };
 
@@ -227,7 +230,17 @@ export default function WelcomeScreen() {
         <View style={styles.checkboxContainer}>
           <Checkbox
             value={agreed}
-            onValueChange={setAgreed}
+            onValueChange={async (value) => {
+              setAgreed(value);
+              try {
+                await AsyncStorage.setItem(
+                  "userAgreed",
+                  value ? "true" : "false"
+                );
+              } catch (e) {
+                console.log("Error saving agreement:", e);
+              }
+            }}
             color={agreed ? "orange" : undefined}
           />
           <Text style={styles.checkboxLabel}>
