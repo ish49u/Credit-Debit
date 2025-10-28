@@ -19,13 +19,15 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack
+        initialRouteName="modal"
         screenOptions={{
-          headerShown: false, // 👈 hides header for all screens including nested ones
+          headerShown: false,
         }}
       >
+        <Stack.Screen name="modal" />
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>
+
       <StatusBar style="auto" />
     </ThemeProvider>
   );
