@@ -18,14 +18,8 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack
-        initialRouteName="modal"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="modal" />
-        <Stack.Screen name="(tabs)" />
+      <Stack screenOptions={{ headerShown: false }}>
+        {/* No need to declare (tabs) manually */}
       </Stack>
 
       <StatusBar style="auto" />
